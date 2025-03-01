@@ -1,6 +1,19 @@
 from libs.math import *
-def simple_iteration_method(C, d, eps, max_iter=10000):
-    n = len(C)
+import decimal
+def simple_iteration_method(A, b, eps, max_iter=10000):
+    n = len(A)
+    C = [[0 for _ in range(n)] for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                C[i][j] = 0
+            else:
+                C[i][j] = -A[i][j] / A[i][i]
+    
+    d = [0 for _ in range(n)]
+    for i in range(n):
+        d[i] = b[i] / A[i][i]
+    
     x = [0 for _ in range(n)]
     x_new = [0 for _ in range(n)]
     error = 1e30

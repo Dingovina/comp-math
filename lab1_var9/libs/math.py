@@ -1,7 +1,10 @@
 from random import random
+from decimal import Decimal
 
 def randrange(start, stop):
-    return round(start + (stop - start) * random(), 4)
+    start = Decimal(start)
+    stop = Decimal(stop)
+    return round(start + (stop - start) * Decimal(random()), 4)
 
 def check_matrix_square(matrix):
     n = len(matrix)
@@ -27,8 +30,8 @@ def swap_cols(matrix, i, j):
 def force_diagonal_dominance(matrix, b):
     n = len(matrix)
     for i in range(n):
-        max_in_row = 0
-        max_col = 0
+        max_in_row = Decimal(0)
+        max_col = Decimal(0)
         for j in range(n):
             if abs(matrix[i][j]) > max_in_row:
                 max_in_row = abs(matrix[i][j])
@@ -41,7 +44,7 @@ def check_diagonal_dominance(matrix):
     n = len(matrix)
     strict_flag = False
     for i in range(n):
-        sum_in_row = 0
+        sum_in_row = Decimal(0)
         for j in range(n):
             sum_in_row += abs(matrix[i][j])
         if abs(matrix[i][i]) < sum_in_row - abs(matrix[i][i]):
@@ -52,9 +55,9 @@ def check_diagonal_dominance(matrix):
 
 def get_matrix_norm(matrix):
     n = len(matrix)
-    norm = 0
+    norm = Decimal(0)
     for i in range(n):
-        sum_in_row = 0
+        sum_in_row = Decimal(0)
         for j in range(n):
             sum_in_row += abs(matrix[i][j])
         norm = max(norm, sum_in_row)
@@ -62,10 +65,10 @@ def get_matrix_norm(matrix):
 
 def get_vector_norm(vector):
     n = len(vector)
-    norm = 0
+    norm = Decimal(0)
     for i in range(n):
-        norm += vector[i] ** 2
-    return norm ** 0.5
+        norm += vector[i] ** Decimal(2)
+    return norm ** Decimal(0.5)
 
 def split_matrix(matrix):
     A = [row[:-1] for row in matrix]
@@ -74,21 +77,21 @@ def split_matrix(matrix):
 
 def add_vectors(vector1, vector2):
     n = len(vector1)
-    result = [0 for _ in range(n)]
+    result = [Decimal(0) for _ in range(n)]
     for i in range(n):
         result[i] = vector1[i] + vector2[i]
     return result
 
 def subtract_vectors(vector1, vector2):
     n = len(vector1)
-    result = [0 for _ in range(n)]
+    result = [Decimal(0) for _ in range(n)]
     for i in range(n):
         result[i] = vector1[i] - vector2[i]
     return result
 
 def multiply_matrix_vector(matrix, vector):
     n = len(matrix)
-    result = [0 for _ in range(n)]
+    result = [Decimal(0) for _ in range(n)]
     for i in range(n):
         for j in range(n):
             result[i] += matrix[i][j] * vector[j]

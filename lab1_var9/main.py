@@ -1,5 +1,5 @@
-from methods import *
-from commands import *
+from libs.methods import *
+from libs.commands import *
 
 def user_input():
     input_id = input("Выберите тип ввода (1 - файл, 2 - терминал, 3 - случайный): ")
@@ -31,20 +31,10 @@ def main():
 
     if not check_diagonal_dominance(A):
         print("Матрицу невозможно привести к диагонально доминирующей")
+    else:
+        print("Матрица приведена к диагонально доминирующей")
     
-    C = [[0 for _ in range(n)] for _ in range(n)]
-    for i in range(n):
-        for j in range(n):
-            if i == j:
-                C[i][j] = 0
-            else:
-                C[i][j] = -A[i][j] / A[i][i]
-    
-    d = [0 for _ in range(n)]
-    for i in range(n):
-        d[i] = b[i] / A[i][i]
-    
-    x, iters, error = simple_iteration_method(C, d, eps)
+    x, iters, error = simple_iteration_method(A, b, eps)
     
     if x is None:
         print("Метод не сходится")
