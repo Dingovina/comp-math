@@ -2,6 +2,9 @@ from libs.methods import *
 from libs.commands import *
 
 def user_input():
+    """
+    Asks user for input type and provides the appropriate function.
+    """
     input_id = input("Выберите тип ввода (1 - файл, 2 - терминал, 3 - случайный): ")
 
     try:
@@ -13,6 +16,9 @@ def user_input():
     return matrix, eps
 
 def main():
+    """
+    Program entry point.
+    """
     matrix, eps = user_input()
     
     A, b = split_matrix(matrix)
@@ -50,4 +56,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    

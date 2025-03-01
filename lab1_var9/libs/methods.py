@@ -1,6 +1,10 @@
 from libs.math import *
 import decimal
+
 def simple_iteration_method(A, b, eps, max_iter=10000):
+    """
+    Finds a solution of the system of linear equations Ax = b using the simple iteration method
+    """
     n = len(A)
     C = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):
@@ -33,4 +37,3 @@ def simple_iteration_method(A, b, eps, max_iter=10000):
         x = x_new
 
     return [x, iters, error]
-    
