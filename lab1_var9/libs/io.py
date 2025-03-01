@@ -17,14 +17,17 @@ def terminal_input_vector():
         print("Прервано пользователем")
         sys.exit(1)
 
-def terminal_input_matrix():
+def terminal_input_matrix(n):
     """
     Reads a matrix of numbers from terminal input and converts them to Decimal
     """
     try:
         matrix = []
-        for line in sys.stdin.readlines():
-            matrix.append(list(map(string_to_decimal, line.split())))
+        for i in range(n):
+            matrix.append(list(map(string_to_decimal, input().split())))
+            if len(matrix[i]) != n + 1:
+                print("Неверный формат ввода")
+                sys.exit(1)
         return matrix
     except ValueError:
         print("Неверный формат ввода")
@@ -52,10 +55,15 @@ def file_input_matrix(filename):
     """
     try:
         with open(filename, "r") as file:
+            n = int(file.readline())
             matrix = []
-            for line in file:
-                matrix.append(list(map(string_to_decimal, line.split())))
-        return matrix
+            for i in range(n):
+                matrix.append(list(map(string_to_decimal, file.readline().split())))
+                if len(matrix[i]) != n + 1:
+                    print("Неверный формат ввода")
+                    sys.exit(1)
+            eps = string_to_decimal(file.readline())
+        return [matrix, eps]
     except FileNotFoundError:
         print("Файл не найден")
         sys.exit(1)
@@ -91,6 +99,8 @@ def random_input_matrix(n):
     for i in range(n):
         for j in range(n + 1):
             matrix[i][j] = Decimal(randrange(-5, 5))
+    for i in range(n):
+        matrix[i][i] = sum(map(abs, matrix[i])) + randrange(1, 2)
     return matrix
 
 def print_matrix(matrix):
@@ -106,11 +116,7 @@ def file_input():
     """
     try:
         filename = input("Введите имя файла с матрицей: ")
-        matrix = file_input_matrix(filename)
-        
-        filename = input("Введите имя файла с точностью: ")
-        eps = file_input_accuracy(filename)
-
+        matrix, eps = file_input_matrix(filename)
         return matrix, eps
     except KeyboardInterrupt:
         print("Прервано пользователем")
@@ -120,8 +126,17 @@ def console_input():
     """
     Reads matrix and accuracy from terminal input
     """
-    print("Введите матрицу:")
-    matrix = terminal_input_matrix()
+    try:
+        n = int(input("Введите размерность матрицы: "))
+        if n < 1:
+            print("Размерность матрицы должна натуральным числом.")
+            exit(1)
+    except ValueError:
+        print("Неверный формат ввода")
+        sys.exit(1)
+
+    print("Введите матрицу Nx(N+1):")
+    matrix = terminal_input_matrix(n)
 
     print("Введите точность:")
     eps = terminal_input_accuracy()
@@ -134,6 +149,9 @@ def random_input():
     """
     try:
         n = int(input("Введите размерность матрицы: "))
+        if n < 1:
+            print("Размерность матрицы должна натуральным числом.")
+            exit(1)
     except ValueError:
         print("Неверный формат ввода")
         sys.exit(1)

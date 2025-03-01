@@ -1,11 +1,16 @@
 from libs.methods import *
 from libs.commands import *
+from decimal import getcontext
 
 def user_input():
     """
     Asks user for input type and provides the appropriate function.
     """
-    input_id = input("Выберите тип ввода (1 - файл, 2 - терминал, 3 - случайный): ")
+    try:
+        input_id = input("Выберите тип ввода (1 - файл, 2 - терминал, 3 - случайный): ")
+    except KeyboardInterrupt:
+        print("Прервано пользователем")
+        sys.exit(1)
 
     try:
         matrix, eps = INPUT_COMMANDS[input_id]()
@@ -19,6 +24,7 @@ def main():
     """
     Program entry point.
     """
+    getcontext().prec = 100
     matrix, eps = user_input()
     
     A, b = split_matrix(matrix)
